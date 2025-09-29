@@ -21,8 +21,8 @@ public class Main {
         EquipoService equipoService = new EquipoServiceImpl(em);
         JugadorService jugadorService = new JugadorServiceimpl(em);
         PosicionService posicionService= new PosicionServiceimpl(em);
-
-        try {
+    /*
+       try {
             System.out.println("=== CREAR EQUIPOS ===");
             Equipo e1 = new Equipo("Club Porcinos FC");
             e1 = equipoService.crear(e1);
@@ -92,6 +92,7 @@ public class Main {
             em.close();
             emf.close();
         }
+       */
     }
 }
 

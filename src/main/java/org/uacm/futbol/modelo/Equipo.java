@@ -47,4 +47,8 @@ public class Equipo {
     public void setJugadores(List<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
+    @Override
+    public String toString() {
+        return nombre != null ? nombre : "Equipo #" + (id != null ? id : "new");
+    }
 }
