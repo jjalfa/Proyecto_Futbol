@@ -16,7 +16,7 @@ public class Equipo {
     @Column(name = "nombre")
     private String nombre;
 
-    @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "equipo", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Jugador> jugadores;
 
     public Equipo(String nombre) {

@@ -16,6 +16,7 @@ public class Gol {
     @Column(name = "minuto")
     private int minuto;
 
+
     public Gol(Partido partido, Jugador jugador, int minuto) {
         this.partido = partido;
         this.jugador = jugador;

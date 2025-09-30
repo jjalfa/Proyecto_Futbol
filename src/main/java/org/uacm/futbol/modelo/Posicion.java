@@ -3,6 +3,8 @@ package org.uacm.futbol.modelo;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "posiciones")
 public class Posicion {
@@ -13,6 +15,10 @@ public class Posicion {
 
     @Column(name = "nombre")
     private String nombre;
+
+    @OneToMany(mappedBy = "posicion", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Jugador> jugadores;
+
 
     public Posicion(String nombre) {
         this.nombre = nombre;
