@@ -1,5 +1,8 @@
 package org.uacm.futbol.modelo;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 @Entity
 @Table(name = "partidos")
@@ -20,9 +23,9 @@ public class Partido {
     @Column(name = "goles_local")
     private int goles_locales;
     @Column(name = "fecha_partido")
-    private Date fecha_partido;
+    private LocalDateTime fecha_partido;
 
-    public Partido(Equipo equipo_local, Equipo equipo_visitante, int goles_visitantes, int goles_locales, Date fecha_partido) {
+    public Partido(Equipo equipo_local, Equipo equipo_visitante, int goles_visitantes, int goles_locales, LocalDateTime fecha_partido) {
         this.equipo_local = equipo_local;
         this.equipo_visitante = equipo_visitante;
         this.goles_visitantes = goles_visitantes;
@@ -30,6 +33,14 @@ public class Partido {
         this.fecha_partido = fecha_partido;
     }
     public Partido(){}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Equipo getEquipo_local() {
         return equipo_local;
@@ -63,11 +74,19 @@ public class Partido {
         this.goles_locales = goles_locales;
     }
 
-    public Date getFecha_partido() {
+    public LocalDateTime getFecha_partido() {
         return fecha_partido;
     }
 
-    public void setFecha_partido(Date fecha_partido) {
+    public void setFecha_partido(LocalDateTime fecha_partido) {
         this.fecha_partido = fecha_partido;
     }
+    @Override
+    public String toString() {
+        String local = (equipo_local != null) ? equipo_local.getNombre() : "Equipo local N/D";
+        String visita = (equipo_visitante != null) ? equipo_visitante.getNombre() : "Equipo visitante N/D";
+        String fecha = (fecha_partido != null) ? fecha_partido.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) : "Fecha N/D";
+        return local + " vs " + visita + " (" + fecha + ")";
+    }
+
 }

@@ -71,4 +71,11 @@ public class Jugador {
     public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+    @Override
+    public String toString() {
+        String pos = (posicion != null) ? posicion.getNombre() : "Sin posición";
+        String eq = (equipo != null) ? equipo.getNombre() : "Sin equipo";
+        return nombre + " (" + pos + ", " + eq + ")";
+    }
+
 }
