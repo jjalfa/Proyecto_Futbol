@@ -11,5 +11,6 @@ public interface JugadorService {
     Jugador buscarPorId(Long id);
     List<Jugador> listarTodos();
     void eliminar(Long id);
-
+    void eliminarCascade(Long id);
+    long contarGoles(Long jugadorId);
 }

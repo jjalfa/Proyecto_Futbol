@@ -39,6 +39,7 @@ public class EquipoPanel extends JPanel {
 
         btnCrear.addActionListener(e -> crearEquipo());
         btnEditar.addActionListener(e -> editarEquipo());
+        // <- CAMBIO: nuevo listener para eliminar con confirmación y conteos
         btnEliminar.addActionListener(e -> eliminarEquipo());
         btnRefrescar.addActionListener(e -> cargarEquipos());
 
@@ -79,10 +80,25 @@ public class EquipoPanel extends JPanel {
         int row = table.getSelectedRow();
         if (row < 0) { JOptionPane.showMessageDialog(this, "Selecciona un equipo"); return; }
         Long id = (Long) tableModel.getValueAt(row, 0);
-        int r = JOptionPane.showConfirmDialog(this, "Eliminar equipo id=" + id + " ?", "Confirmar", JOptionPane.YES_NO_OPTION);
-        if (r == JOptionPane.YES_OPTION) {
-            equipoService.eliminar(id);
-            cargarEquipos();
+
+        try {
+            // Pedir conteos al servicio (la UI NO debe usar EntityManager directo)
+            long numJugadores = equipoService.contarJugadores(id);
+            long numPartidos = equipoService.contarPartidos(id);
+
+            String mensaje = "El equipo tiene " + numJugadores + " jugador(es) y aparece en " + numPartidos +
+                    " partido(s).\nAl borrar se eliminarán también los goles relacionados y los jugadores.\n¿Continuar?";
+
+            int opcion = JOptionPane.showConfirmDialog(this, mensaje, "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+            if (opcion == JOptionPane.YES_OPTION) {
+                // Llamada al servicio que realiza el borrado en cascada desde la app
+                equipoService.eliminar(id);
+                cargarEquipos();
+                JOptionPane.showMessageDialog(this, "Equipo eliminado correctamente.");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al eliminar equipo: " + ex.getMessage());
         }
     }
 }

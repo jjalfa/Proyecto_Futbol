@@ -1,7 +1,10 @@
 package org.uacm.futbol.modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,8 +24,10 @@ public class Jugador {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "fecha_nacimiento")
-
     private LocalDate fecha_nacimiento;
+
+   /* @OneToMany(mappedBy = "jugador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gol> goles = new ArrayList<>();*/
 
     public Jugador(LocalDate fecha_nacimiento,Equipo equipo,Posicion posicion,String nombre) {
         this.equipo = equipo;

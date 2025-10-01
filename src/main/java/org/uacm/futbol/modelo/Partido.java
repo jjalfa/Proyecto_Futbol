@@ -3,7 +3,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "partidos")
 public class Partido {
@@ -24,6 +27,9 @@ public class Partido {
     private int goles_locales;
     @Column(name = "fecha_partido")
     private LocalDateTime fecha_partido;
+
+   /* @OneToMany(mappedBy = "partido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Gol> goles = new ArrayList<>();*/
 
     public Partido(Equipo equipo_local, Equipo equipo_visitante, int goles_visitantes, int goles_locales, LocalDateTime fecha_partido) {
         this.equipo_local = equipo_local;

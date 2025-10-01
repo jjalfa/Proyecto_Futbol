@@ -51,15 +51,28 @@ public class JugadorPanel extends JPanel {
             Jugador j = jugadorService.buscarPorId(id);
             mostrarDialogoJugador(j);
         });
+
+        // <- CAMBIO: eliminar con confirmación (cuenta goles) y cascada desde el servicio
         btnEliminar.addActionListener(e -> {
             int r = table.getSelectedRow();
             if (r < 0) { JOptionPane.showMessageDialog(this, "Selecciona un jugador"); return; }
             Long id = (Long) model.getValueAt(r, 0);
-            if (JOptionPane.showConfirmDialog(this, "Eliminar jugador id=" + id + " ?","Confirmar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                jugadorService.eliminar(id);
-                cargar();
+
+            try {
+                long numGoles = jugadorService.contarGoles(id);
+                String mensaje = "El jugador tiene " + numGoles + " gol(es).\nAl borrar se eliminarán esos goles y se actualizarán los marcadores.\n¿Continuar?";
+                int opt = JOptionPane.showConfirmDialog(this, mensaje, "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+                if (opt == JOptionPane.YES_OPTION) {
+                    jugadorService.eliminarCascade(id);
+                    cargar();
+                    JOptionPane.showMessageDialog(this, "Jugador eliminado correctamente.");
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error al eliminar jugador: " + ex.getMessage());
             }
         });
+
         btnRefrescar.addActionListener(e -> cargar());
 
         cargar();
@@ -181,5 +194,4 @@ public class JugadorPanel extends JPanel {
         dialog.add(botones, BorderLayout.SOUTH);
         dialog.setVisible(true);
     }
-
 }

@@ -10,4 +10,6 @@ public interface EquipoService {
     Equipo buscarPorId(Long id);
     List<Equipo> listarTodos();
     void eliminar(Long id);
+    long contarJugadores(Long equipoId);
+    long contarPartidos(Long equipoId);
 }
